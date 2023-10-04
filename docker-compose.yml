@@ -2,7 +2,7 @@ version: '3'
 services:
   database:
     image: mysql:8.0.33-oracle
-    container_name: Fundy-DB
+    container_name: Assignment-DB
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=fundy
