@@ -21,14 +21,24 @@ public class User {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    @Column(name = "NICKNAME")
+    @Column(name = "NICKNAME", nullable = false)
     private String nickname;
 
+    //권한
+    @Column(name = "AUTHORITY", nullable = false)
+    private String authority;
+
+    //핸드폰 번호
+    @Column(name = "PNUMBER")
+    private String pnumber;
+
     @Builder
-    private User(String email, String password, String nickname) {
+    private User(String email, String password, String nickname, String authority, String pnumber) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
+        this.authority = authority;
+        this.pnumber = pnumber;
 
     }
 }

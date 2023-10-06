@@ -4,7 +4,7 @@ package com.example.fundyassignment.controller;
 import com.example.fundyassignment.controller.dto.request.SaveUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import com.example.fundyassignment.service.Userservice;
+import com.example.fundyassignment.service.UserService;
 import com.example.fundyassignment.service.dto.request.UserSaveServiceRequest;
 import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
 
@@ -12,7 +12,7 @@ import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
-    private final Userservice userService;
+    private final UserService userService;
 
     @PostMapping
     public final long saveUser(@RequestBody SaveUserRequest request){
@@ -20,11 +20,16 @@ public class UserController {
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .nickname(request.getNickname())
+                .authority(request.getAuthority())
+                .pnumber(request.getPnumber())
                 .build());
     }
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public final UserInfoServiceResponse getUserById(@PathVariable(name = "id") long id){
         return userService.findById(id);
     }
-
+    @GetMapping("/email/{email}")
+    public final UserInfoServiceResponse getUserByEmail(@PathVariable(name = "email") String email){
+        return userService.findByEmail(email);
+    }
 }

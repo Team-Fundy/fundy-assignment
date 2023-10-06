@@ -1,4 +1,4 @@
-package com.example.fundyassignment.service.dto.response;
+package com.example.fundyassignment.service.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,10 +8,8 @@ import lombok.Getter;
 @Builder
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserInfoServiceResponse {
-    private long id;
-    private String email;
+public class PostSaveServiceRequest {
+    private String title;
+    private String text;
     private String nickname;
-    private String authority;
-    private String pnumber;
 }

@@ -1,8 +1,7 @@
 package com.example.fundyassignment.controller.dto.request;
 
-import jakarta.validation.constraints.Email;
+
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,21 +10,15 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class SaveUserRequest {
-
-    @Email
-    @NotNull
-    private String email;
+public class SavePostRequest {
 
     @NotNull
-    @Length(min = 8, max = 20)
-    private String password;
+    @Length(min = 50, max = 1000)
+    private String title;
+
+    @NotNull
+    private String text;
 
     @NotNull
     private String nickname;
-
-    @NotNull
-    private String authority;
-
-    private String pnumber;
 }

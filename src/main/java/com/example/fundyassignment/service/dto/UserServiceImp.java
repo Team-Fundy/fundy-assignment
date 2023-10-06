@@ -4,13 +4,13 @@ import com.example.fundyassignment.repository.User;
 import com.example.fundyassignment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.example.fundyassignment.service.Userservice;
+import com.example.fundyassignment.service.UserService;
 import com.example.fundyassignment.service.dto.request.UserSaveServiceRequest;
 import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImp implements Userservice {
+public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
 
@@ -20,6 +20,8 @@ public class UserServiceImp implements Userservice {
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .nickname(request.getNickname())
+                .authority(request.getAuthority())
+                .pnumber(request.getPnumber())
                 .build());
 
         return user.getId();
@@ -28,11 +30,34 @@ public class UserServiceImp implements Userservice {
     @Override
     public UserInfoServiceResponse findById(long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("No User"));
+        
 
         return UserInfoServiceResponse.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .nickname(user.getNickname())
+                .authority(user.getAuthority())
+                .pnumber(user.getPnumber())
                 .build();
 
     }
+
+    @Override
+    public UserInfoServiceResponse findByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("No User"));
+
+        return UserInfoServiceResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .authority(user.getAuthority())
+                .pnumber(user.getPnumber())
+                .build();
+
+    }
+
+
+
+
+
 }
