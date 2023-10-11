@@ -36,6 +36,4 @@ public class PostController {
     public final PostInfoServiceResponse getPostByNickname(@PathVariable(name = "nickname") String nickname){
         return postService.findByNickname(nickname);
     }
-
-
 }

@@ -1,5 +1,7 @@
 package com.example.fundyassignment.repository;
 
+import com.example.fundyassignment.common.UserAuthority;
+import com.example.fundyassignment.repository.converter.UserAuthorityConverter;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Generated;
@@ -26,14 +28,15 @@ public class User {
 
     //권한
     @Column(name = "AUTHORITY", nullable = false)
-    private String authority;
+    @Convert(converter = UserAuthorityConverter.class)
+    private UserAuthority authority;
 
     //핸드폰 번호
     @Column(name = "PNUMBER")
     private String pnumber;
 
     @Builder
-    private User(String email, String password, String nickname, String authority, String pnumber) {
+    private User(String email, String password, String nickname, UserAuthority authority, String pnumber) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
