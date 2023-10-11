@@ -13,5 +13,5 @@ public class PostInfoServiceResponse {
     private long id;
     private String title;
     private String text;
-    private String nickname;
+    private long userid;
 }

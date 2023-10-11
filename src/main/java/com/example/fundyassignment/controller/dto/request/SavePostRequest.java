@@ -20,5 +20,5 @@ public class SavePostRequest {
     private String text;
 
     @NotNull
-    private String nickname;
+    private long userid;
 }

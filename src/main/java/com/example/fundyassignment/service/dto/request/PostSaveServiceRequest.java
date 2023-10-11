@@ -11,5 +11,5 @@ import lombok.Getter;
 public class PostSaveServiceRequest {
     private String title;
     private String text;
-    private String nickname;
+    private long userid;
 }

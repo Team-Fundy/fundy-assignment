@@ -1,7 +1,8 @@
-package com.example.fundyassignment.service.dto;
+package com.example.fundyassignment.service;
 
 import com.example.fundyassignment.repository.User;
 import com.example.fundyassignment.repository.UserRepository;
+import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.example.fundyassignment.service.UserService;
@@ -50,7 +51,7 @@ public class UserServiceImp implements UserService {
                 .id(user.getId())
                 .email(user.getEmail())
                 .nickname(user.getNickname())
-                .authority(user.getAuthority())
+                .authority(user.getAuthority().getValue())
                 .pnumber(user.getPnumber())
                 .build();
 
