@@ -1,49 +1,70 @@
 /*
-package jwttoken;
+package com.example.fundyassignment.jwttoken;
 
-import com.example.fundyassignment.repository.UserRepository;
+import com.example.fundyassignment.service.UserService;
+import com.example.fundyassignment.service.UserServiceImp;
+import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.stereotype.Component;
 
 import java.util.Base64;
+import java.util.Date;
 
 @RequiredArgsConstructor
-public class TokenProvider{
-    private final UserRepository userRepository;
-
-    static Long EXPIRE_TIME = 60L * 60L * 1000L;
-
-    @Value("${jwt.secret}")
+@Component
+public class TokenProvider {
+    @Value("$secret.key")
     private String secretKey;
 
-    private Algorithm getSign(){
-        return Algorithm.HMAC512(secretKey);
-    }
-    //객체 초기화, secretKey를 Base64로 인코딩한다.
+    private final long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;
+    private final long REFRESH_TOKEN_VALID_TIME = 30 * 60 * 24 * 12 * 1000L;
+    
+    private final UserServiceImp UserServiceImp;
+    
+    //초기화, 인코딩방식 설정
     @PostConstruct
     protected void init() {
-        this.secretKey = Base64.getEncoder().encodeToString(this.secretKey.getBytes());
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
+    
+    //토큰 생성
+    public String createRefreshToken(String value) {
+        Claims claims = Jwts.claims();
+        claims.put("value", value);
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_VALID_TIME))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
     }
 
-
-    // Jwt 토큰 생성
-    public String generateJwtToken(Long id, String email, String username){
-
-        Date tokenExpiration = new Date(System.currentTimeMillis() + (EXPIRE_TIME));
-
-
-        String jwtToken = JWT.create()
-                .withSubject(email) //토큰 이름
-                .withExpiresAt(tokenExpiration)
-                .withClaim("id", id)
-                .withClaim("email", email)
-                .withClaim("username", username)
-                .sign(this.getSign());
-
-        return jwtToken;
+    public String createRefreshToken(String value) {
+        Claims claims = Jwts.claims();
+        claims.put("value", value);
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_VALID_TIME))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
     }
+
+    public Authentication getAuthentication(String token) {
+        UserInfoServiceResponse userInfoServiceResponse = UserServiceImp.findById(this.getUserPk(token));
+        return new UserName//시발
+    }
+
+    
+
 }
+
 */
