@@ -2,10 +2,15 @@ package com.example.fundyassignment.service;
 
 import com.example.fundyassignment.common.UserAuthority;
 import com.example.fundyassignment.common.exception.NoAuthorityException;
+import com.example.fundyassignment.jwttoken.JwtTokenProvider;
 import com.example.fundyassignment.repository.User;
 import com.example.fundyassignment.repository.UserRepository;
 import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import com.example.fundyassignment.service.dto.request.UserSaveServiceRequest;
 
@@ -14,7 +19,8 @@ import com.example.fundyassignment.service.dto.request.UserSaveServiceRequest;
 public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
-
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtTokenProvider jwtTokenProvider;
     @Override
     public long saveUser(UserSaveServiceRequest request) {
         try {
@@ -59,6 +65,7 @@ public class UserServiceImp implements UserService {
                 .build();
 
     }
+
 
 
 

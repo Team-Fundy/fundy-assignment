@@ -2,6 +2,7 @@ package com.example.fundyassignment.controller;
 
 
 import com.example.fundyassignment.controller.dto.request.SaveUserRequest;
+import com.example.fundyassignment.jwttoken.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.example.fundyassignment.service.UserService;
@@ -13,6 +14,7 @@ import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
     public final long saveUser(@RequestBody SaveUserRequest request){
@@ -24,6 +26,18 @@ public class UserController {
                 .pnumber(request.getPnumber())
                 .build());
     }
+
+    //토큰 사용
+
+    @PostMapping("/token")
+    public final void login(@RequestBody SaveUserRequest request) {
+        String nickname = request.getNickname();
+        String email = request.getEmail();
+        String authority = request.getAuthority();
+
+        jwtTokenProvider.createToken(nickname, email, authority);
+    }
+
     @GetMapping("/id/{id}")
     public final UserInfoServiceResponse getUserById(@PathVariable(name = "id") long id){
         return userService.findById(id);

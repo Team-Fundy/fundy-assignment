@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class GlobalExceptionResponse {
+public class GlobalExceptionResponse extends Throwable {
     private boolean success;
     private String message;
 }
