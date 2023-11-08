@@ -6,11 +6,8 @@ import com.example.fundyassignment.jwttoken.JwtTokenProvider;
 import com.example.fundyassignment.repository.User;
 import com.example.fundyassignment.repository.UserRepository;
 import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
-import jakarta.transaction.Transactional;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import com.example.fundyassignment.service.dto.request.UserSaveServiceRequest;
 
@@ -19,10 +16,9 @@ import com.example.fundyassignment.service.dto.request.UserSaveServiceRequest;
 public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     @Override
-    public long saveUser(UserSaveServiceRequest request) {
+    public String saveUser(UserSaveServiceRequest request) {
         try {
             UserAuthority authority = UserAuthority.valueOf(request.getAuthority());
             User user = userRepository.save(User.builder()
@@ -33,9 +29,11 @@ public class UserServiceImp implements UserService {
                     .pnumber(request.getPnumber())
                     .build());
 
-            return user.getId();
+            return String.valueOf(user.getId());
+            //return user.getId();
         } catch (Exception e) {
             throw NoAuthorityException.getBasic();
+
         }
     }
 
@@ -65,6 +63,11 @@ public class UserServiceImp implements UserService {
                 .build();
 
     }
+
+//    @Override
+//    public UserInfoServiceResponse findByToken(String token) {
+//        return jwtTokenProvider.getUserInfo(token);
+//    }
 
 
 

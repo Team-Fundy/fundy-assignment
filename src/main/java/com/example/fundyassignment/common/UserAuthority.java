@@ -3,7 +3,7 @@ package com.example.fundyassignment.common;
 import lombok.val;
 
 public enum UserAuthority {
-    NORMAL("NORMAL_USER"),
+    NORMAL("NORMAL"),
     CREATOR("CREATOR");
 
     private String value;

@@ -4,6 +4,7 @@ package com.example.fundyassignment.controller;
 import com.example.fundyassignment.controller.dto.request.SaveUserRequest;
 import com.example.fundyassignment.jwttoken.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import ognl.Token;
 import org.springframework.web.bind.annotation.*;
 import com.example.fundyassignment.service.UserService;
 import com.example.fundyassignment.service.dto.request.UserSaveServiceRequest;
@@ -17,25 +18,33 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
-    public final long saveUser(@RequestBody SaveUserRequest request){
-        return userService.saveUser(UserSaveServiceRequest.builder()
+    public final String saveUser(@RequestBody SaveUserRequest request){
+
+        //String token = jwtTokenProvider.createToken(request.getEmail(), request.getAuthority());
+
+//        return userService.saveUser(UserSaveServiceRequest.builder()
+//                .email(request.getEmail())
+//                .password(request.getPassword())
+//                .nickname(request.getNickname())
+//                .authority(request.getAuthority())
+//                .pnumber(request.getPnumber())
+//                .build());
+        userService.saveUser(UserSaveServiceRequest.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .nickname(request.getNickname())
                 .authority(request.getAuthority())
                 .pnumber(request.getPnumber())
                 .build());
+        return jwtTokenProvider.createToken(request.getEmail(), request.getAuthority());
+
     }
 
-    //토큰 사용
+    //토큰에서 이메일 추출
+    @GetMapping("/token/{token}")
+    public final String getByToken(@PathVariable(name = "token") String token) {
+        return (String) jwtTokenProvider.getUserInfo(token).get("email");
 
-    @PostMapping("/token")
-    public final void login(@RequestBody SaveUserRequest request) {
-        String nickname = request.getNickname();
-        String email = request.getEmail();
-        String authority = request.getAuthority();
-
-        jwtTokenProvider.createToken(nickname, email, authority);
     }
 
     @GetMapping("/id/{id}")
