@@ -5,6 +5,7 @@ import com.example.fundyassignment.common.exception.NoAuthorityException;
 import com.example.fundyassignment.jwttoken.JwtTokenProvider;
 import com.example.fundyassignment.repository.User;
 import com.example.fundyassignment.repository.UserRepository;
+import com.example.fundyassignment.repository.converter.UserAuthorityConverter;
 import com.example.fundyassignment.service.dto.response.UserInfoServiceResponse;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class UserServiceImp implements UserService {
     @Override
     public String saveUser(UserSaveServiceRequest request) {
         try {
+
             UserAuthority authority = UserAuthority.valueOf(request.getAuthority());
             User user = userRepository.save(User.builder()
                     .email(request.getEmail())

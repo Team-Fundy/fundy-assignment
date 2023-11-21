@@ -1,5 +1,6 @@
 package com.example.fundyassignment.service;
 
+import com.example.fundyassignment.common.UserAuthority;
 import com.example.fundyassignment.repository.Post;
 import com.example.fundyassignment.repository.PostRepository;
 import com.example.fundyassignment.repository.User;
@@ -24,7 +25,7 @@ public class PostServiceImp implements PostService {
 
         User user = userRepository.findById(request.getUserid()).orElseThrow(() -> new RuntimeException("No User Id"));
 
-        if(!user.getAuthority().equals("C")) {
+        if(!user.getAuthority().equals(UserAuthority.CREATOR)) {
             throw new RuntimeException(String.valueOf(user.getAuthority()));
         }
 
