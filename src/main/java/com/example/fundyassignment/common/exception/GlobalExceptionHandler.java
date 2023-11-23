@@ -13,4 +13,6 @@ public class GlobalExceptionHandler {
                 .message("Authority가 맞지 않습니다.")
                 .build();
     }
+
+
 }
